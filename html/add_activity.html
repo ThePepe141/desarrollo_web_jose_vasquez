@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Nuevo Evento</title>
+    </head>
+    <body>
+        <h3>Nuevo Evento Recreativo</h3>
+        <div id="botones">
+            <button type="button" id="atras">Atrás</button>
+        </div>
+        <h4>Ingrese los datos del nuevo evento recreativo</h4>
+        <form class="formulario" id="add-activity">
+            <label for="host-data">Ingrese datos del anfitrión del evento:</label>
+            <div id="host-data" class="inputs-group">
+                <div id="nombre-input" class="host-inputs">
+                    <label for="nombre">Nombre:</label>
+                    <input id="nombre" name="nombre" type="text" required>
+                    <div id="nombre-warning" class="warning-space"></div>
+                </div>
+                <div id="email-input" class="host-inputs">
+                    <label for="email">Email:</label>
+                    <input id="email" name="email" type="email" required>
+                    <div id="email-warning" class="warning-space"></div>
+                </div>
+                <div id="celular-input" class="host-inputs">
+                    <label for="celular">Número de celular:</label>
+                    <input id="celular" name="celular" type="tel" required>
+                    <div id="celular-warning" class="warning-space"></div>
+                </div>
+                <label for="contacto-option">Contactar por:</label>
+                <div id="contacto-option" class="host-inputs">
+                    <label><input type="checkbox" name="contacto" value="whatsapp"> WhatsApp</label><br>
+                    <label><input type="checkbox" name="contacto" value="telegram"> Telegram</label><br>
+                    <label><input type="checkbox" name="contacto" value="instagram"> Instagram</label><br>
+                    <label><input type="checkbox" name="contacto" value="tiktok"> TikTok</label><br>
+                    <label><input type="checkbox" name="contacto" value="facebook"> Facebook</label><br>
+                    <label><input type="checkbox" name="contacto" value="x"> X</label><br>
+                    <label><input type="checkbox" name="contacto" value="otra"> Otra</label><br>
+                    <div id="contacto-extra"></div>
+                    <div id="contacto-warning" class="warning-space"></div>
+                </div>
+            </div>
+            <label for="location-data">Ingrese datos del lugar del evento:</label>
+            <div id="location-data" class="inputs-group">
+                <div id="region-option" class="location-inputs">
+                    <label for="region">Region:</label>
+                    <select id="region" name="region" required>
+                        <option value="">Seleccione una región</option>
+                    </select>
+                    <div id="region-warning" class="warning-space"></div>
+                </div>
+                <div class="location-inputs">
+                    <label for="comuna">Comuna:</label>
+                    <select id="comuna" name="comuna" required></select>
+                </div>
+                <div id="sector-input" class="location-inputs">
+                    <label for="sector">Sector:</label>
+                    <input id="sector" name="sector" type="text" maxlength="100">
+                </div>
+            </div>
+            <div id="event-data" class="inputs-group">
+                <div id="inicio-input" class="event-inputs">
+                    <label for="inicio">Inicio del evento:</label>
+                    <input id="inicio" name="inicio" type="datetime-local" required>
+                    <div id="inicio-warning" class="warning-space"></div>
+                </div>
+                <div id="fin-input" class="event-inputs">
+                    <label for="fin">Fin del evento:</label>
+                    <input id="fin" name="fin" type="datetime-local">
+                    <div id="fin-warning" class="warning-space"></div>
+                </div>
+                <div id="descripcion-input" class="event-inputs">
+                    <label for="descripcion">Descripción del evento:</label>
+                    <textarea id="descripcion" name="descripcion" cols="50" rows="10"></textarea>
+                </div>
+                <label for="tema-option">Tema del evento:</label>
+                <div id="tema-option" class="event-inputs">
+                    <label><input type="checkbox" name="tema" value="baile"> Baile</label><br>
+                    <label><input type="checkbox" name="tema" value="ciencia"> Ciencia</label><br>
+                    <label><input type="checkbox" name="tema" value="comida"> Comida</label><br>
+                    <label><input type="checkbox" name="tema" value="deporte"> Deporte</label><br>
+                    <label><input type="checkbox" name="tema" value="juegos"> Juegos</label><br>
+                    <label><input type="checkbox" name="tema" value="musica"> Música</label><br>
+                    <label><input type="checkbox" name="tema" value="politica"> Política</label><br>
+                    <label><input type="checkbox" name="tema" value="religion"> Religión</label><br>
+                    <label><input type="checkbox" name="tema" value="tecnologia"> Tecnología</label><br>
+                    <label><input type="checkbox" name="tema" value="otro"> Otro</label><br>
+                </div>
+                <div id="tema-extra"></div>
+                <div id="tema-warning" class="warning-space"></div>
+                <div id="foto-input" class="event-inputs">
+                    <label>Fotos representativas del evento:</label>
+                    <div id="foto-container">
+                        <input id="foto" name="foto" type="file" required>
+                    </div>
+                    <button type="button" id="agregar-foto">Agregar otra foto</button>
+                    <div id="foto-warning" class="warning-space"></div>
+                </div>
+            </div>
+            <div id="botones">
+                <button type="button" id="publicar">Agregar esta actividad</button>
+            </div>
+            <div id="confirmacion-option" style="display: none; margin-top: 20px;"></div>
+            <div id="mensaje-final" style="display: none; margin-top: 20px;"></div>
+        </form>
+        <script lang="javascript" src="../js/region_comuna.js"></script>
+        <script lang="javascript" src="../js/add_activity.js"></script>
+    </body>
+</html>
