@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Detalle Actividad</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        </style>
+    </head>
+    <body>
+        <h3>Detalle Actividad</h3>
+        <h4>{{actividad.nombre}}</h4>
+        <section>
+            <p><strong>Email:</strong>{{actividad.email}}</p>
+            <p><strong>Celular:</strong>{{actividad.celular or "No especificado"}}</p>
+            <p><strong>Región:</strong>{{actividad.comuna.region_id.nombre}}</p>
+            <p><strong>Comuna:</strong>{{actividad.comuna.nombre}}</p>
+            <p><strong>Sector:</strong>{{actividad.sector or "No especificado"}}</p>
+            <p><strong>Inicio:</strong>{{actividad.dia_hora_inicio.strftime('%Y-%m-%d %H:%M')}}</p>
+            {% if actividad.dia_hora_termino %}
+            <p><strong>Término:</strong>{{actividad.dia_hora_termino.strftime('%Y-%m-%d %H:%M')}}</p>
+            {% endif %}
+            <p><strong>Descripción:</strong>{{actividad.descripcion or "No especificado"}}</p>
+        </section>
+        <section>
+            <h5>Temas del Evento</h5>
+            <ul>
+                {% for tema in actividad.temas %}
+                    {% if tema.tema == "otro" %}
+                    <li><strong>Otro:</strong>{{tema.glosa_otro}}</li>
+                    {% else %}
+                    <li>{{tema.tema.title()}}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h5>Fotos del Evento</h5>
+            {% if actividad.fotos %}
+            <div style="display: flex; flex-wrap: wrap;">
+                {% for foto in actividad.fotos %}
+                <div>
+                    <img src="{{ url_for('static', filename=foto.ruta_archivo) }}" alt="{{ foto.nombre_archivo }}" class="foto-item">
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No hay fotos disponibles</p>
+            {% endif %}
+        </section>
+    <button id="volver-a-listado">Volver al listado</button>
+    <script src="{{ url_for('static', filename='js/details.js') }}"></script>
+    </body>
+</html>

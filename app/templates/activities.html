@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Listado de Actividades</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    </head>
+    <body>
+        <h3>Listado de Actividades</h3>
+        <table cellpadding="8" cellspacing="0" style="width: 100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Comuna</th>
+                    <th>Inicio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for act in actividades.items %}
+                <tr class="clickable-row" data-id="{{act.id}}">
+                    <td>{{act.nombre}}</td>
+                    <td>{{act.email}}</td>
+                    <td>{{act.comuna.nombre}}</td>
+                    <td>{{act.dia_hora_inicio.strftime('%Y-%m-%d %H:%M')}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% if actividades.has_prev %}
+            <a href="{{ url_for('main.actividades', page=actividades.prev_num) }}">Página anterior</a>
+            {% endif %}
+            Página {{actividades.page}} de {{actividades.pages}}
+            {% if actividades.has_next %}
+            <a href="{{ url_for('main.actividades', page=actividades.next_num) }}">Página siguiente</a>
+            {% endif %}
+        </div>
+        <button id="volver-al-inicio" onclick="window.location.href='/'">Volver a inicio</button>
+        <script src="{{ url_for('static', filename='js/activities.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Espacio Recreativo FCFM</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    </head>
+    <body>
+        <div class="container">
+            <h3>¡Hola! Bienvenido al Espacio Recreativo FCFM</h3>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flashes">
+                    {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <div class="botones">
+                <div class="boton1">
+                    <button type="button" id="agregar-evento">
+                        Agregar evento
+                    </button>
+                </div>
+                <div class="boton2">
+                    <button type="button" id="ver-actividades">
+                        Ver actividades
+                    </button>
+                </div>
+                <div class="boton3">
+                    <button type="button" id="estadisticas">
+                        Estadísticas
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right; margin-bottom: 10px;">
+            <label class="switch">
+                <input type="checkbox" id="dark-mode">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <script src="{{url_for('static', filename='js/index.js')}}"></script>
+    </body>
+</html>
