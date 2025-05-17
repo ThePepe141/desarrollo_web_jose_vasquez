@@ -7,6 +7,10 @@ const toListEvent = () => {
     window.location.href = "/activities";
 };
 
+const toStatsEvent = () => {
+    window.location.href = "/statistics";
+};
+
 let gotoAdd = document.getElementById("agregar-evento");
 if (gotoAdd) {
     gotoAdd.addEventListener("click", toAddEvent);
@@ -17,10 +21,15 @@ if (gotoList) {
     gotoList.addEventListener("click", toListEvent);
 }
 
+let gotoStats = document.getElementById("estadisticas");
+if (gotoStats) {
+    gotoStats.addEventListener("click", toStatsEvent);
+}
+
 //modo oscuro
 document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.getElementById("dark-mode");
-    const isDark = localStorage.getItem("dark-mode")="true";
+    const isDark = localStorage.getItem("dark-mode") === "true";
     if (isDark){
         document.body.classList.add("dark-mode");
         toggle.checked = true;

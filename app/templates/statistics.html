@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+    <header>
+        <meta charset="UTF-8">
+        <title>Estadísticas</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </header>
+    <body>
+        <h3>Estadísticas de Actividades</h3>
+        <div  style="width: 80%; margin: auto;">
+            <h4>Gráfico de actividades por día</h4>
+            <canvas id="acts_per_day"></canvas>
+            <h4>Gráfico de actividades por tema</h4>
+            <canvas id="acts_per_theme"></canvas>
+            <h4>Gráfico de actividades por fecha de inicio</h4>
+            <canvas id="acts_per_date"></canvas>
+        </div>
+        <div id="botones">
+            <button id="volver-al-inicio">Volver al inicio</button>
+        </div>
+        <script src="{{url_for('static', filename='js/statistics.js')}}"></script>
+    </body>
+</html>

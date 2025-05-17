@@ -29,11 +29,11 @@
         </table>
         <div class="pagination">
             {% if actividades.has_prev %}
-            <a href="{{ url_for('main.actividades', page=actividades.prev_num) }}">Página anterior</a>
+            <a href="{{ url_for('main.activities', page=actividades.prev_num) }}">Página anterior</a>
             {% endif %}
             Página {{actividades.page}} de {{actividades.pages}}
             {% if actividades.has_next %}
-            <a href="{{ url_for('main.actividades', page=actividades.next_num) }}">Página siguiente</a>
+            <a href="{{ url_for('main.activities', page=actividades.next_num) }}">Página siguiente</a>
             {% endif %}
         </div>
         <button id="volver-al-inicio" onclick="window.location.href='/'">Volver a inicio</button>

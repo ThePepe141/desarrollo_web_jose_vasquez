@@ -167,3 +167,6 @@ def watch_activity(id):
     actividad = Actividad.query.get_or_404(id)
     return render_template("details.html", actividad=actividad)
 
+@main.route("/statistics")
+def statistics():
+    return render_template("statistics.html")

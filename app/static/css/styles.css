@@ -254,8 +254,13 @@ body.dark-mode textarea {
 }
 
 body.dark-mode button {
-  background-color: #444;
+  background-color: #3498db;
   color: white;
+  transition: background-color 0.3s;
+}
+
+body.dark-mode button:hover {
+    background-color: #2980b9;
 }
 
 body.dark-mode ul.flashes li.success {

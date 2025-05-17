@@ -7,7 +7,7 @@
     <body>
         <h3>Nuevo Evento Recreativo</h3>
         <div id="botones">
-            <button id="atras">Atrás</button>
+            <button id="atras">Volver al inicio</button>
         </div>
         <h4>Ingrese los datos del nuevo evento recreativo</h4>
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -86,7 +86,7 @@
                 <label for="tema-option">Tema del evento:</label>
                 <div id="tema-option" class="event-inputs">
                     <label><input type="checkbox" name="tema" value="baile"> Baile</label><br>
-                    <label><input type="checkbox" name="tema" value="ciencia"> Ciencia</label><br>
+                    <label><input type="checkbox" name="tema" value="ciencias"> Ciencias</label><br>
                     <label><input type="checkbox" name="tema" value="comida"> Comida</label><br>
                     <label><input type="checkbox" name="tema" value="deporte"> Deporte</label><br>
                     <label><input type="checkbox" name="tema" value="juegos"> Juegos</label><br>
