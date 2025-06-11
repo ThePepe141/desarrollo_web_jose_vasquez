@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //modo oscuro
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.getElementById("dark-mode");
     const isDark = localStorage.getItem("dark-mode") === "true";
     if (isDark){
@@ -85,4 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("dark-mode", "false");
         }
     });
-});
+});*/

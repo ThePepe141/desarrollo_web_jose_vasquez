@@ -275,6 +275,18 @@ body.dark-mode button:hover {
     background-color: #03219e;
 }
 
+body.dark-mode #volver-al-inicio {
+    background-color: #042bcd;
+}
+
+body.dark-mode #volver-al-inicio:hover {
+    background-color: #03219e;
+}
+
+body.dark-mode .pagination a {
+    color: #042bcd;
+}
+
 body.dark-mode ul.flashes li.success {
   color: #00ff99;
 }
