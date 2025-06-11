@@ -40,6 +40,7 @@
                 {% for foto in actividad.fotos %}
                 <div>
                     <img src="{{ url_for('static', filename=foto.ruta_archivo) }}" alt="{{ foto.nombre_archivo }}" class="foto-item">
+
                 </div>
                 {% endfor %}
             </div>

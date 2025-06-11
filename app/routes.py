@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from .models import db, Region, Comuna, Actividad, ActividadTema, Contacto, Foto
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from sqlalchemy import func, extract, case, or_
 import os
 
 UPLOAD_FOLDER = os.path.join("app", "static", "uploads")
@@ -143,7 +144,7 @@ def add():
         for foto in fotos_validas:
             db.session.add(Foto(
                 nombre_archivo=foto,
-                ruta_archivo=os.path.join("uploads", foto),
+                ruta_archivo=os.path.join("uploads", foto).replace("\\", "/"),
                 actividad_id=nueva_actividad.id
             ))
         db.session.commit()
@@ -170,3 +171,68 @@ def watch_activity(id):
 @main.route("/statistics")
 def statistics():
     return render_template("statistics.html")
+
+#Se usa la ruta /api/ para separar las rutas que devuelven json
+# /api/statistics/ para las rutas que retornan los datos para statistics
+@main.route("/api/statistics/activities-by-day")
+def activities_by_day():
+    resultados = db.session.query(
+        func.date(Actividad.dia_hora_inicio).label("fecha"),
+        func.count().label("cantidad")
+    ).group_by("fecha").order_by("fecha").all()
+
+    data = {
+        "labels": [r.fecha.strftime("%Y-%m-%d") for r in resultados],
+        "cantidades": [r.cantidad for r in resultados]
+    }
+    return jsonify(data)
+
+@main.route("/api/statistics/activities-by-theme")
+def activities_by_theme():
+    resultados = db.session.query(
+        ActividadTema.tema,
+        func.count().label("cantidad")
+    ).group_by(ActividadTema.tema).all()
+
+    data = {
+        "labels": [r.tema for r in resultados],
+        "cantidades": [r.cantidad for r in resultados]
+    }
+    return jsonify(data)
+
+@main.route("/api/statistics/activities-by-time")
+def activities_by_time():
+    resultados = db.session.query(
+        extract("month", Actividad.dia_hora_inicio).label("mes"),
+        func.sum(case((extract("hour", Actividad.dia_hora_inicio).between(5, 12), 1), else_=0)).label("manana"),
+        func.sum(case((extract("hour", Actividad.dia_hora_inicio).between(13, 20), 1), else_=0)).label("tarde"),
+        func.sum(case((or_(extract("hour", Actividad.dia_hora_inicio).between(0, 4), extract("hour", Actividad.dia_hora_inicio).between(21, 23)), 1), else_=0)).label("noche")
+    ).group_by("mes").order_by("mes").all()
+
+    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+    data = {
+        "labels": [meses[int(r.mes) - 1] for r in resultados],
+        "manana": [r.manana for r in resultados],
+        "tarde": [r.tarde for r in resultados],
+        "noche": [r.noche for r in resultados]
+    }
+    return jsonify(data)
+
+@main.route("/api/last-activities")
+def last_activities():
+    actividades = Actividad.query.order_by(Actividad.dia_hora_inicio.desc()).limit(5).all()
+    data = []
+    for act in actividades:
+        data.append({
+            "inicio": act.dia_hora_inicio.strftime("%Y-%m-%d %H:%M"),
+            "fin": act.dia_hora_termino.strftime("%Y-%m-%d %H:%M") if act.dia_hora_termino else "No especificado",
+            "comuna": act.comuna.nombre,
+            "sector": act.sector or "No especificado",
+            "temas": [
+                f"Otra: {t.glosa_otro}" if t.tema == "otro" else t.tema
+                for t in act.temas
+            ],
+            "foto": act.fotos[0].ruta_archivo if act.fotos else None
+        })
+    return jsonify(data)

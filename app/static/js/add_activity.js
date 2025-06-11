@@ -239,10 +239,6 @@ const validForm = () => {
         showAlert("email-warning", "Campo excede máximo de caracteres (máx. 100)");
         isValid = false;
     } 
-    //celular
-    if (!notEmpty("celular")){
-        showAlert("celular-warning", "Campo obligatorio")
-    }
     else if (!validCelular()){
         showAlert("celular-warning", "Formato input incorrecto (+NNN.NNNNNNNN)")
         isValid = false;

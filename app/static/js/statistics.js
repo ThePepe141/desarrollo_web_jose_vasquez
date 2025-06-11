@@ -5,48 +5,91 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href="/";
         });
     }
+
+    fetchAJAX("/api/statistics/activities-by-day", buildLineChart);
+    fetchAJAX("/api/statistics/activities-by-theme", buildPieChart);
+    fetchAJAX("/api/statistics/activities-by-time", buildBarChart);
 });
+
+let fetchAJAX = (url, callback) => {
+    fetch(url)
+        .then((response) => {
+            if (!response.ok){
+                throw new Error("Network response was not OK");
+            }
+            return response.json();
+        })
+        .then((ajaxResponse) => {
+            callback(ajaxResponse);
+            console.log("Datos recibidos desde: ", url, ajaxResponse);
+        })
+        .catch((error) => {
+            console.error(
+                "There has been a problem with your fetch operation",
+                error
+            );
+        })
+};
 
 //graficos
-new Chart(document.getElementById("acts_per_day"), {
-    type: "line",
-    data: {
-        labels: ["2025-05-01", "2025-05-02", "2025-05-03", "2025-05-04"],
-        datasets: [{
-            label: "Cantidad de Actividades",
-            data: [2, 1, 3, 4],
-            fill: false,
-            borderColor: "blue",
-            tension: 0.1
-        }]
-    }
-});
+function buildLineChart(data) {
+    new Chart(document.getElementById("acts_per_day"), {
+        type: "line",
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: "Cantidad de Actividades",
+                data: data.cantidades,
+                fill: false,
+                borderColor: "blue",
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    ticks: {
+                        stepsize: 1,
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+}
+function buildPieChart(data) {
+    new Chart(document.getElementById("acts_per_theme"), {
+        type: "pie",
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.cantidades,
+                backgroundColor: ["#00FF00", "#FFFF00", "#FF00FF", "#0000FF", "#FFA500", "#800080", "#008080", "#A0522D", "#8B0000", "#D3D3D3"],
+            }]
+        }
+    });
+}
 
-new Chart(document.getElementById("acts_per_theme"), {
-    type: "pie",
-    data: {
-        labels: ["Baile", "Ciencia", "Comida", "Deporte", "Juegos", "Música", "Política", "Religión", "Tecnología", "Otro"],
-        datasets: [{
-            data: [8, 3, 1, 5, 9, 4, 4, 7, 10, 6],
-            backgroundColor: ["#00FF00", "#FFFF00", "#FF00FF", "#0000FF", "#FFA500", "#800080", "#008080", "#A0522D", "#8B0000", "#D3D3D3"],
-        }]
-    }
-});
-
-new Chart(document.getElementById("acts_per_date"), {
+function buildBarChart(data) {
+    new Chart(document.getElementById("acts_per_date"), {
     type: "bar",
     data: {
-        labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        labels: data.labels,
         datasets: [
             {
-                label: "AM",
-                data: [9, 11, 6, 5, 3, 3, 2, 4, 8, 4, 3, 10],
-                backgroundcolor: "#FFFF00"
+                label: "mañana",
+                data: data.manana,
+                backgroundColor: "#FFD54F"
             },
             {
-                label: "PM",
-                data: [14, 18, 13, 6, 5, 5, 4, 6, 14, 5, 8, 20],
-                backgroundcolor: "#FF00FF"
+                label: "tarde",
+                data: data.tarde,
+                backgroundColor: "#FF8A65"
+            },
+            {
+                label: "noche",
+                data: data.noche,
+                backgroundColor: "#37474F"
             }
         ]
     },
@@ -56,9 +99,11 @@ new Chart(document.getElementById("acts_per_date"), {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    stepsize: 1
+                    stepsize: 1,
+                    precision: 0
                 }
             }
         }
     }
 });
+}
