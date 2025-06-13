@@ -182,6 +182,57 @@ td img {
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
+/* Estilo para los comentarios */
+#comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.comentario-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-left: 6px solid #3498db;
+}
+
+.comentario-header {
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.comentario-texto {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.comentario-fecha {
+    font-size: 12px;
+    color: #777;
+    text-align: right;
+}
+
+/* Inputs alineados visualmente */
+.input-grupo {
+    margin-bottom: 12px;
+}
+
+#nombre,
+#texto {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
 /*Modo oscuro*/
 .switch {
   position: relative;
@@ -293,4 +344,21 @@ body.dark-mode ul.flashes li.success {
 
 body.dark-mode ul.flashes li.error {
   color: #ff9999;
+}
+
+body.dark-mode .comentario-card {
+    background-color: #041d83;
+    border-left: 6px solid #0529bd;
+}
+
+body.dark-mode .comentario-header {
+    color: #f1f1f1;
+}
+
+body.dark-mode .comentario-texto {
+    color: #f1f1f1;
+}
+
+body.dark-mode .comentario-fecha {
+    color: #f1f1f1;
 }

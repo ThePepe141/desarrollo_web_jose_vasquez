@@ -48,7 +48,31 @@
             <p>No hay fotos disponibles</p>
             {% endif %}
         </section>
+        <h4>Comentarios</h4>
+        <section id="comentarios">
+            {% for com in actividad.comentarios %}
+            <div class="comentario-card">
+                <div class="comentario-header">{{ com.nombre }}</div>
+                <div class="comentario-texto">{{ com.texto }}</div>
+                <div class="comentario-fecha">{{ com.fecha.strftime('%Y-%m-%d %H:%M') }}</div>
+            </div>
+            {% endfor %}
+        </section>
+        <form class="formulario" id="comentario-form" method="POST">
+            <div id="nombre-input">
+                <label for="nombre">Nombre:</label>
+                <input id="nombre" name="nombre" type="text" required size="50">
+                <div id="nombre-warning" class="warning-space"></div>
+            </div>
+            <div id="contenido-input">
+                <label for="texto">Contenido:</label>
+                <textarea id="texto" name="texto" rows="4" cols="50" required></textarea>
+                <div id="texto-warning" class="warning-space"></div>
+            </div>
+            <button type="submit" id="agregar-comentario">Agregar comentario</button>
+        </form>
     <button id="volver-a-listado">Volver al listado</button>
     <script src="{{ url_for('static', filename='js/details.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dark_mode.js') }}"></script>
     </body>
 </html>

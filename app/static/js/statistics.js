@@ -82,13 +82,13 @@ function buildBarChart(data) {
                 backgroundColor: "#FFD54F"
             },
             {
-                label: "tarde",
-                data: data.tarde,
+                label: "mediodia",
+                data: data.mediodia,
                 backgroundColor: "#FF8A65"
             },
             {
-                label: "noche",
-                data: data.noche,
+                label: "tarde-noche",
+                data: data.tarde_noche,
                 backgroundColor: "#37474F"
             }
         ]

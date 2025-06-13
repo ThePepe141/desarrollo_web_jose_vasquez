@@ -1,4 +1,5 @@
 from . import db
+from datetime import datetime, timezone
 
 class Region(db.Model):
     __tablename__  = "region"
@@ -61,3 +62,14 @@ class Foto(db.Model):
     ruta_archivo = db.Column(db.String(300), nullable=False)
     actividad_id = db.Column(db.Integer, db.ForeignKey("tarea2.actividad.id"), nullable=False)
 
+class Comentario(db.Model):
+    __tablename__ = "comentario"
+    __table_args__ = {"schema": "tarea2"}
+
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(200), nullable=False)
+    texto = db.Column(db.String(500), nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    actividad_id = db.Column(db.Integer, db.ForeignKey("tarea2.actividad.id"), nullable=False)
+
+    actividad = db.relationship("Actividad", backref="comentarios", lazy=True)

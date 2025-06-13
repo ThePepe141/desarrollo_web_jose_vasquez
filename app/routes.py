@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
-from .models import db, Region, Comuna, Actividad, ActividadTema, Contacto, Foto
+from .models import db, Region, Comuna, Actividad, ActividadTema, Contacto, Foto, Comentario
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from sqlalchemy import func, extract, case, or_
@@ -204,9 +204,9 @@ def activities_by_theme():
 def activities_by_time():
     resultados = db.session.query(
         extract("month", Actividad.dia_hora_inicio).label("mes"),
-        func.sum(case((extract("hour", Actividad.dia_hora_inicio).between(5, 12), 1), else_=0)).label("manana"),
-        func.sum(case((extract("hour", Actividad.dia_hora_inicio).between(13, 20), 1), else_=0)).label("tarde"),
-        func.sum(case((or_(extract("hour", Actividad.dia_hora_inicio).between(0, 4), extract("hour", Actividad.dia_hora_inicio).between(21, 23)), 1), else_=0)).label("noche")
+        func.sum(case((extract("hour", Actividad.dia_hora_inicio).between(5, 11), 1), else_=0)).label("manana"),
+        func.sum(case((extract("hour", Actividad.dia_hora_inicio).between(12, 16), 1), else_=0)).label("mediodia"),
+        func.sum(case((or_(extract("hour", Actividad.dia_hora_inicio).between(0, 4), extract("hour", Actividad.dia_hora_inicio).between(17, 23)), 1), else_=0)).label("tarde_noche")
     ).group_by("mes").order_by("mes").all()
 
     meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
@@ -214,8 +214,8 @@ def activities_by_time():
     data = {
         "labels": [meses[int(r.mes) - 1] for r in resultados],
         "manana": [r.manana for r in resultados],
-        "tarde": [r.tarde for r in resultados],
-        "noche": [r.noche for r in resultados]
+        "mediodia": [r.mediodia for r in resultados],
+        "tarde_noche": [r.tarde_noche for r in resultados]
     }
     return jsonify(data)
 
@@ -236,3 +236,31 @@ def last_activities():
             "foto": act.fotos[0].ruta_archivo if act.fotos else None
         })
     return jsonify(data)
+
+@main.route("/activity/<int:actividad_id>/comment", methods=["POST"])
+def add_comment(actividad_id):
+    actividad = Actividad.query.get_or_404(actividad_id)
+
+    nombre = request.form.get("nombre", "").strip()
+    texto = request.form.get("texto", "").strip()
+
+    errores = []
+
+    if not nombre or len(nombre) < 3 or len(nombre) > 80:
+        errores.append("El nombre debe tener entre 3 y 80 caracteres.")
+
+    if not texto or len(texto) < 5:
+        errores.append("El texto debe tener al menos 5 caracteres.")
+
+    if errores:
+        return "Error: " + " ".join(errores), 400
+
+    nuevo_comentario = Comentario(
+        nombre=nombre,
+        texto=texto,
+        actividad_id=actividad.id
+    )
+    db.session.add(nuevo_comentario)
+    db.session.commit()
+
+    return "OK", 200
