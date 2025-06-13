@@ -263,6 +263,4 @@ def add_comment(actividad_id):
     db.session.add(nuevo_comentario)
     db.session.commit()
 
-    flash("Comentario agregado exitosamente", "success")
-
     return "OK", 200
